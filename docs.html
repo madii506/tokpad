@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TokPad — docs</title>
+<meta name="description" content="How TokPad works, what it can and cannot do, and what is not yet verifiable.">
+<link rel="icon" href="/assets/favicon-64.png">
+<style>
+@font-face{font-family:Inter;src:url(/assets/inter.woff2) format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:Plex;src:url(/assets/plexmono.woff2) format('woff2');font-weight:400 600;font-display:swap}
+:root{--bg:#000;--panel:#121216;--line:rgba(255,255,255,.1);--txt:#fff;--mute:#9a9aa4;--mute2:#c5c5cd;--cyan:#25F4EE;--red:#FE2C55;--mono:Plex,ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav ul{list-style:none;margin:0;padding:0 16px;display:flex;justify-content:center;gap:2px;height:58px;align-items:center;overflow-x:auto;scrollbar-width:none}
+nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--mute2);padding:8px 12px;border-radius:999px;white-space:nowrap}
+nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+main{max-width:760px;margin:0 auto;padding:56px 24px 120px}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+h1{font-size:clamp(36px,5vw,54px);letter-spacing:-.03em;line-height:1;margin:12px 0 14px;font-weight:880}
+h1 em{font-style:normal;color:var(--cyan)}
+.lead{font-size:18px;line-height:1.55;color:var(--mute2);margin:0 0 40px}
+h2{font-size:24px;letter-spacing:-.02em;margin:48px 0 10px;padding-top:24px;border-top:1px solid var(--line)}
+p,li{font-size:16px;line-height:1.65;color:var(--mute2)}
+code{font-family:var(--mono);background:var(--panel);padding:2px 7px;border-radius:6px;font-size:14px;color:#fff}
+.box{background:rgba(37,244,238,.07);border:1px solid rgba(37,244,238,.35);border-radius:14px;padding:16px 18px;margin:18px 0}
+.box b{display:block;margin-bottom:4px;color:#fff}
+.gl dt{font-weight:800;margin-top:14px;color:#fff} .gl dd{margin:4px 0 0;color:var(--mute2);line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5;color:var(--mute2)}
+td:first-child{color:var(--mute);width:42%}
+</style>
+</head>
+<body>
+<nav><ul>
+  <li><a href="/">Home</a></li><li><a href="#what">What it is</a></li><li><a href="#rail">The rail</a></li><li><a href="#rules">Rules</a></li><li><a href="#human">The human</a></li><li><a href="#verify">Verify</a></li><li><a href="#not">Not verifiable yet</a></li><li><a href="#words">Words</a></li><li><a href="#names">Names</a></li>
+</ul></nav>
+<main>
+  <div class="kick">TokPad · docs</div>
+  <h1>Every coin is a <em>push</em>.</h1>
+  <p class="lead">TokPad pays in the currency TikTok actually runs on: reach. This page says exactly what that means, what it cannot do, and where you would see it fail.</p>
+
+  <h2 id="what">What it is</h2>
+  <p>TokPad is a launchpad rule, not a token. You launch a coin on pump.fun with one line in its description — <code>promotes @handle via TokPad</code>. That line pairs the coin to one TikTok account. From then on, the coin's creator fee is spent as promotion on that account's newest public video, through TikTok's own Promote tool, so the video is pushed onto the For You page. The creator does nothing: no sign-up, no wallet, no code, no claim. They post like normal and their next video gets more views than it should.</p>
+
+  <h2 id="rail">The rail</h2>
+  <p>The rail is TikTok Promote, TikTok's own paid-reach product. A push buys one promotion at TikTok's listed price for the audience and duration chosen at launch, and TikTok decides how many views that becomes. TokPad does not estimate views and does not quote a number for them; the receipt shows the real count before and after.</p>
+  <div class="box"><b>Honest framing</b>TikTok only lets promotion be bought from an account that has permission on the video. TokPad does not have an API for this. A person on this side runs each push through TikTok's ad tools and posts the receipt. That is the trust hole, and it is named below rather than hidden.</div>
+
+  <h2 id="rules">Rules</h2>
+  <table>
+    <tr><td>Pairing</td><td>The coin's description line, <code>promotes @handle via TokPad</code>. Read once, on-chain, fixed. A coin without the line is paired to no one and nothing is bought.</td></tr>
+    <tr><td>Target</td><td>The account's newest public video at the moment of each push. If they have not posted since the last push, the fund waits, published, until they do.</td></tr>
+    <tr><td>Quantum</td><td>One promotion per push. The fee accumulates until it covers one promotion at TikTok's price, then one is bought. No fractions, no bundles bought ahead.</td></tr>
+    <tr><td>Cadence</td><td>At most one push per paired account per hour, so each promotion is its own event with its own receipt.</td></tr>
+    <tr><td>Refusals</td><td>Private accounts, accounts with no videos, and handles that do not exist are refused in the reader, before any transaction.</td></tr>
+    <tr><td>Unpushable</td><td>If no push can be placed for 14 days — account deleted, all videos removed, promotion refused by TikTok — the fund waits, published, and is never re-pointed to a different account.</td></tr>
+    <tr><td>Numbers</td><td>A dash means there is no number. A zero means we counted and found nothing. The site never shows a number it did not measure.</td></tr>
+  </table>
+
+  <h2 id="human">A person runs the push</h2>
+  <p>The instruction to push exists on-chain the moment the fee crosses one promotion. The settlement is a human following it: they buy the promotion in TikTok's ad tools and post the receipt within the hour. If that person stops, the wall stops moving and the gap is visible to everyone. The person is <em>the operator of the @TokPad account on X</em>, and every receipt is posted from that account with the link to the video.</p>
+
+  <h2 id="verify">Verify one yourself</h2>
+  <ol>
+    <li>Open the push on the wall. It links the exact TikTok video.</li>
+    <li>Open the video. The view count is on it; TikTok shows it, we did not draw it.</li>
+    <li>The wall shows the minute the promotion was bought. TikTok's receipt carries its own timestamp. They agree, or the wall is wrong and you caught it.</li>
+  </ol>
+
+  <h2 id="not">What is not verifiable today</h2>
+  <p>No coin has been launched on TokPad yet. That means: no push has happened, the wall is empty, and every number on the site is either read live from TikTok (followers, likes, video counts, avatars) or typed into a labelled calculator field by us. The mechanic above is a specification; the observed behaviour starts with the first push, and the first thing you will be able to check is that one.</p>
+  <p>What you also cannot verify from here: how many views TikTok gives a given promotion, and whether TikTok approves a given video for promotion. Those live on TikTok's side and TikTok's terms.</p>
+
+  <h2 id="words">Words</h2>
+  <dl class="gl">
+    <dt>Push</dt><dd>One purchase of one promotion on one video, paid from a coin's creator fee.</dd>
+    <dt>Pairing line</dt><dd><code>promotes @handle via TokPad</code>, in the coin's description. The only thing TokPad reads.</dd>
+    <dt>For You</dt><dd>TikTok's main feed, and what a push buys a place on.</dd>
+    <dt>Newest video</dt><dd>The most recent public video by the paired account at the moment of a push.</dd>
+    <dt>The wall</dt><dd>Every push, newest first, each linking its video and its receipt. Empty until the first one.</dd>
+    <dt>Unpushable</dt><dd>A fund that has waited 14 days with nowhere to place a promotion. It stays published and stays where it is.</dd>
+    <dt>Dash</dt><dd>No number. Not zero.</dd>
+  </dl>
+
+  <h2 id="names">Names on this site</h2>
+  <p>The accounts shown in the hero cards and the examples are real TikTok accounts, shown as examples of the kind of account you could pair. None were contacted, none endorse anything, none have received anything, and no coin has been launched on any of them. Their avatars, names, verified ticks and follower counts are what TikTok published on the day they were read, and the reader shows the live number when you check them.</p>
+  <p>The address will appear on the home page and in the pinned post at the same moment. Anyone posting one before that is scamming you.</p>
+</main>
+</body>
+</html>
