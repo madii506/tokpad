@@ -73,9 +73,9 @@ h1 em{font-style:normal;color:var(--cyan)}
 
 
 /* flickering wordmark */
-.wm{display:flex;justify-content:center;margin:0 0 26px;user-select:none}
+.wm{display:flex;justify-content:center;margin:0 0 22px;user-select:none}
 .wm .w{position:relative;display:inline-block;font-size:clamp(36px,5.2vw,68px);font-weight:900;letter-spacing:-.04em;line-height:1;color:#fff;
-  text-shadow:-2px -2px 0 var(--cyan),2px 2px 0 var(--red);animation:flick 4.2s infinite steps(1,end),jitter 6s infinite}
+  text-shadow:0 0 30px rgba(255,255,255,.25);animation:flick 4.2s infinite steps(1,end),jitter 6s infinite}
 .wm .w::before,.wm .w::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden;color:#fff;text-shadow:none;pointer-events:none;opacity:0}
 .wm .w::before{color:var(--cyan);animation:sliceA 3.1s infinite steps(1,end)}
 .wm .w::after{color:var(--red);animation:sliceB 2.7s infinite steps(1,end)}
@@ -85,31 +85,32 @@ h1 em{font-style:normal;color:var(--cyan)}
 @keyframes sliceB{0%,80%,100%{opacity:0;clip-path:inset(0 0 100% 0)}81%{opacity:1;clip-path:inset(60% 0 12% 0);transform:translateX(9px)}83%{opacity:1;clip-path:inset(22% 0 60% 0);transform:translateX(-7px)}85%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.wm .w,.wm .w::before,.wm .w::after{animation:none}}
 
-/* coverflow */
-.flow{position:relative;height:420px;margin-top:38px;perspective:1100px;perspective-origin:50% 40%;overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.flow .floor{position:absolute;left:0;right:0;top:372px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)}
-.card{position:absolute;left:50%;top:40px;width:168px;height:336px;margin-left:-84px;border-radius:20px;overflow:hidden;background:#111;transform-style:preserve-3d;
-  transition:transform .8s cubic-bezier(.22,.8,.2,1),filter .8s,opacity .8s;cursor:pointer;box-shadow:0 30px 60px -28px rgba(0,0,0,.9);will-change:transform}
+/* hero: continuous card flow behind, header + bar centred over it */
+#top{min-height:640px;display:flex;align-items:center}
+#top .wrap.hero{position:relative;z-index:3;width:100%;padding:60px 24px;text-align:center}
+.bed{display:inline-block;padding:34px 40px 26px;border-radius:28px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:0 40px 100px -40px rgba(0,0,0,1)}
+.flow{position:absolute;inset:0;z-index:1;perspective:1200px;perspective-origin:50% 45%;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.card{position:absolute;left:0;top:50%;width:150px;height:300px;margin-top:-150px;border-radius:18px;overflow:hidden;background:#111;transform-style:preserve-3d;
+  cursor:pointer;box-shadow:0 30px 60px -28px rgba(0,0,0,.9);will-change:transform;transition:filter .3s}
+.card:hover{filter:brightness(1.15)}
 .card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .card .bg{filter:blur(16px) brightness(.5);transform:scale(1.3)}
 .card .av{top:18%;height:auto;width:92%;left:4%;border-radius:6px}
 .card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent 28%,transparent 52%,rgba(0,0,0,.92));pointer-events:none}
-.card .tabs{position:absolute;top:12px;left:0;right:0;display:flex;justify-content:center;gap:16px;font-size:11px;font-weight:700;z-index:2}
+.card .tabs{position:absolute;top:12px;left:0;right:0;display:flex;justify-content:center;gap:14px;font-size:10px;font-weight:700;z-index:2}
 .card .tabs span{color:rgba(255,255,255,.6)} .card .tabs b{color:#fff;border-bottom:2px solid #fff;padding-bottom:3px}
-.card .rail{position:absolute;right:10px;top:47%;display:flex;flex-direction:column;gap:12px;align-items:center;z-index:2}
-.card .rail i{width:22px;height:22px;background:#fff;display:block;border-radius:50%}
-.card .rail i.h{background:transparent;color:#fff;font-style:normal;font-size:22px;line-height:1}
-.card .meta{position:absolute;left:12px;right:44px;bottom:14px;z-index:2}
-.card .pill{display:inline-block;background:var(--red);color:#fff;font-size:9px;font-weight:800;letter-spacing:.12em;padding:4px 9px;border-radius:999px;margin-bottom:8px}
-.card .n{font-weight:800;font-size:14px;letter-spacing:-.01em;display:flex;align-items:center;gap:5px}
-.card .v{width:12px;height:12px;border-radius:50%;background:var(--cyan);display:inline-block;position:relative}
-.card .v::after{content:"";position:absolute;left:3px;top:3px;width:5px;height:3px;border-left:2px solid #000;border-bottom:2px solid #000;transform:rotate(-45deg)}
-.card .f{font-size:11px;color:rgba(255,255,255,.85);margin-top:3px}
-.card .l{font-size:10px;color:var(--cyan);margin-top:4px;font-weight:600}
-.card.lit{box-shadow:0 0 0 2px #fff,-5px -5px 0 -1px var(--cyan),5px 5px 0 -1px var(--red),0 40px 80px -30px rgba(0,0,0,1)}
-.refl{position:absolute;left:0;right:0;top:376px;height:80px;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent);pointer-events:none}
-.stat{margin:10px auto 0;font-size:13px;color:var(--mute);text-align:center}
+.card .rail{position:absolute;right:9px;top:47%;display:flex;flex-direction:column;gap:11px;align-items:center;z-index:2}
+.card .rail i{width:20px;height:20px;background:#fff;display:block;border-radius:50%}
+.card .rail i.h{background:transparent;color:#fff;font-style:normal;font-size:20px;line-height:1}
+.card .meta{position:absolute;left:11px;right:40px;bottom:12px;z-index:2}
+.card .pill{display:inline-block;background:var(--red);color:#fff;font-size:8px;font-weight:800;letter-spacing:.12em;padding:4px 8px;border-radius:999px;margin-bottom:7px}
+.card .n{font-weight:800;font-size:13px;letter-spacing:-.01em;display:flex;align-items:center;gap:5px}
+.card .v{width:11px;height:11px;border-radius:50%;background:var(--cyan);display:inline-block;position:relative;flex:none}
+.card .v::after{content:"";position:absolute;left:3px;top:3px;width:4px;height:2px;border-left:2px solid #000;border-bottom:2px solid #000;transform:rotate(-45deg)}
+.card .f{font-size:10px;color:rgba(255,255,255,.85);margin-top:3px}
+.card .l{font-size:9px;color:var(--cyan);margin-top:4px;font-weight:600}
+.card.lit{box-shadow:0 0 0 2px #fff,-4px -4px 0 -1px var(--cyan),4px 4px 0 -1px var(--red),0 40px 80px -30px rgba(0,0,0,1)}
 
 /* launch */
 #launch .wrap{padding:76px 24px 80px}
@@ -175,22 +176,18 @@ h1 em{font-style:normal;color:var(--cyan)}
 .note{margin-top:14px;font-size:12.5px;color:var(--mute);line-height:1.55}
 
 /* proof (red) */
-#proof{background:var(--red);color:#fff;border-top:0}
 #proof .wrap{padding:76px 24px 80px}
-#proof .kick{color:rgba(255,255,255,.8)} #proof .kick::before{background:#fff;box-shadow:-6px 0 0 -2px #000}
-#proof h2 em{background:none;color:#000;-webkit-text-fill-color:#000}
-#proof .lead{color:rgba(255,255,255,.9)}
 .pf{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;margin-top:34px}
 .verify{counter-reset:v}
-.verify>div{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 0;border-top:1px solid rgba(255,255,255,.35)}
-.verify>div::before{counter-increment:v;content:"0" counter(v);font-family:var(--mono);color:#fff;font-size:13px;padding-top:3px}
-.verify h4{margin:0 0 6px;font-size:17px} .verify p{margin:0;font-size:14px;line-height:1.55;color:rgba(255,255,255,.88)}
-.cannot{border-radius:16px;overflow:hidden;background:#000;color:#fff}
+.verify>div{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 0;border-top:1px solid var(--line)}
+.verify>div::before{counter-increment:v;content:"0" counter(v);font-family:var(--mono);color:var(--cyan);font-size:13px;padding-top:3px}
+.verify h4{margin:0 0 6px;font-size:17px} .verify p{margin:0;font-size:14px;line-height:1.55;color:var(--mute2)}
+.cannot{border-radius:16px;overflow:hidden;background:var(--panel);border:1px solid var(--line);color:#fff}
 .cannot .h{display:grid;grid-template-columns:1fr 1fr;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:12px 16px;border-bottom:1px solid var(--line);background:#0c0c10}
 .cannot .r{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:14px 16px;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.5}
 .cannot .r:last-child{border-bottom:0}
 .cannot .r span:first-child{color:var(--mute2)} .cannot .r span:last-child{color:#fff;font-weight:600}
-.hole{margin-top:24px;padding:18px 20px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.4);font-size:14px;line-height:1.6;color:#fff}
+.hole{margin-top:24px;padding:18px 20px;border-radius:14px;background:rgba(254,44,85,.08);border:1px solid rgba(254,44,85,.4);font-size:14px;line-height:1.6;color:var(--mute2)}
 .hole b{color:#fff}
 
 /* wall */
@@ -220,7 +217,7 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
 }
 @media (max-width:560px){
   #top .wrap{padding-top:40px}
-  .form{flex-direction:column} .btn{height:52px}
+  .form{flex-direction:column} .btn{height:52px} .bed{display:block;padding:24px 16px 18px;max-width:100%} #top{min-height:560px} .card{width:120px;height:240px;margin-top:-120px}
   .steps{grid-template-columns:1fr}
   .row{grid-template-columns:1fr} .out{grid-template-columns:1fr} .stats{grid-template-columns:1fr 1fr}
   nav ul{justify-content:flex-start}
@@ -244,15 +241,16 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
 <div class="sec" id="top">
   <div class="glow c" style="width:520px;height:520px;left:-160px;top:-200px"></div>
   <div class="glow r" style="width:560px;height:560px;right:-200px;top:120px"></div>
-  <div class="wrap">
-    <div class="wm" aria-label="TokPad"><span class="w" data-t="TokPad">TokPad</span></div>
-    <form class="form" id="heroForm" autocomplete="off">
-      <label class="inp"><span class="pre">@</span><input id="heroU" placeholder="handle" spellcheck="false" aria-label="TikTok handle"></label>
-      <button class="btn" type="submit">Read them ↗</button>
-    </form>
-    <div class="try">Try <code data-u="mrbeast">@mrbeast</code> <code data-u="charlidamelio">@charlidamelio</code> <code data-u="zachking">@zachking</code> — read live from TikTok.</div>
-    <div class="flow" id="flow" aria-hidden="true"><div class="floor"></div><div class="refl"></div></div>
-    <div class="stat" id="flowStat">Examples of who you could pair. Real accounts, real counts, none contacted, none endorsing anything. Click one to read it live.</div>
+  <div class="flow" id="flow" aria-hidden="true"></div>
+  <div class="wrap hero">
+    <div class="bed">
+      <div class="wm" aria-label="TokPad"><span class="w" data-t="TokPad">TokPad</span></div>
+      <form class="form" id="heroForm" autocomplete="off">
+        <label class="inp"><span class="pre">@</span><input id="heroU" placeholder="handle" spellcheck="false" aria-label="TikTok handle"></label>
+        <button class="btn" type="submit">Read them ↗</button>
+      </form>
+      <div class="try">Try <code data-u="mrbeast">@mrbeast</code> <code data-u="charlidamelio">@charlidamelio</code> <code data-u="zachking">@zachking</code> — read live from TikTok.</div>
+    </div>
   </div>
 </div>
 
@@ -397,32 +395,38 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
   ];
   function fmt(n){n=+n||0;return n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?Math.round(n/1e3)+'K':String(n)}
 
-  // ---------- coverflow ----------
-  var flow=document.getElementById('flow'),cards=[],cur=0,timer,paused=false;
+  // ---------- continuous card flow ----------
+  var flow=document.getElementById('flow'),cards=[],paused=false,offset=0,last=0,GAP=178;
   SHOW.forEach(function(s,i){
     var c=document.createElement('div');c.className='card';c.setAttribute('data-u',s.u);
     c.innerHTML='<img class="bg" src="/assets/av/'+s.u+'.jpg" alt=""><img class="av" src="/assets/av/'+s.u+'.jpg" alt="">'+
       '<div class="tabs"><span>Following</span><b>For You</b></div>'+
       '<div class="rail"><i class="h">♥</i><i></i><i></i></div>'+
       '<div class="meta"><span class="pill">PAIRABLE</span><div class="n">'+s.n+' <span class="v"></span></div><div class="f">@'+s.u+' · '+fmt(s.f)+' followers</div><div class="l">fees → their newest video, on For You</div></div>';
-    c.addEventListener('click',function(){if(i===cur){pick(s.u)}else{cur=i;layout();restart()}});
+    c.addEventListener('click',function(){pick(s.u)});
     flow.appendChild(c);cards.push(c);
   });
   function layout(){
-    var n=cards.length,W=flow.clientWidth,step=Math.min(150,Math.max(96,W/9));
+    var n=cards.length,W=flow.clientWidth,total=n*GAP,cx=W/2;
     cards.forEach(function(c,i){
-      var d=i-cur; if(d>n/2)d-=n; if(d<-n/2)d+=n;
-      var a=Math.abs(d),x=d*step*(a<=1?1.15:1)+(d>0?60:d<0?-60:0),z=-a*120,ry=d===0?0:(d<0?52:-52),sc=d===0?1:0.86;
-      c.style.transform='translateX('+x+'px) translateZ('+z+'px) rotateY('+ry+'deg) scale('+sc+')';
-      c.style.zIndex=String(100-a);c.style.filter='brightness('+(d===0?1:Math.max(.35,1-a*.14))+')';c.style.opacity=a>6?0:1;
-      c.classList.toggle('lit',d===0);
+      var x=((i*GAP+offset)%total+total)%total-GAP+ (W-total)/2 + total/2 - W/2 + 0; // centred loop
+      x=((i*GAP+offset)%total+total)%total; x=x-total/2+cx;   // -total/2..total/2 around centre
+      var d=(x-cx)/cx;                                       // -1..1
+      var ry=-d*38, z=-Math.abs(d)*160, sc=1-Math.abs(d)*.18;
+      c.style.transform='translateX('+(x-75)+'px) translateZ('+z+'px) rotateY('+ry+'deg) scale('+sc+')';
+      c.style.zIndex=String(100-Math.round(Math.abs(d)*50));
+      c.style.opacity=Math.abs(d)>1?0:1;
+      c.classList.toggle('lit',Math.abs(d)<.08);
     });
   }
-  function tick(){if(paused)return;cur=(cur+1)%cards.length;layout()}
-  function restart(){clearInterval(timer);timer=setInterval(tick,2600)}
+  function frame(t){
+    if(!last)last=t; var dt=Math.min(50,t-last); last=t;
+    if(!paused)offset-=dt*0.045;
+    layout(); requestAnimationFrame(frame);
+  }
   flow.addEventListener('mouseenter',function(){paused=true});flow.addEventListener('mouseleave',function(){paused=false});
   window.addEventListener('resize',layout);
-  cur=1;layout();restart();
+  requestAnimationFrame(frame);
 
   // nav: transparent at the top, dark once you scroll
   var navEl=document.querySelector('nav');function navSc(){navEl.classList.toggle('sc',window.scrollY>40)}window.addEventListener('scroll',navSc,{passive:true});navSc();
