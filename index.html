@@ -30,10 +30,11 @@ div[id]{scroll-margin-top:80px}
 ::selection{background:var(--red);color:#fff}
 
 /* nav: centred links only */
-nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+nav{position:sticky;top:0;z-index:40;background:transparent;transition:background .35s,backdrop-filter .35s}
+nav.sc{background:rgba(0,0,0,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 nav ul{list-style:none;margin:0;padding:0 16px;display:flex;justify-content:center;gap:2px;height:58px;align-items:center;overflow-x:auto;scrollbar-width:none}
 nav ul::-webkit-scrollbar{display:none}
-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--mute2);padding:8px 13px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s}
+nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--mute2);padding:8px 13px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 nav a:hover{background:rgba(255,255,255,.08);color:#fff}
 nav a.x{color:var(--cyan)}
 
@@ -51,7 +52,7 @@ h2 em{font-style:normal;background:linear-gradient(90deg,var(--cyan),#fff 45%,va
 .rv.vis{opacity:1;transform:none}
 
 /* hero */
-#top{border-top:0}
+#top{border-top:0;margin-top:-58px;padding-top:58px}
 #top .wrap{padding:40px 24px 24px;text-align:center}
 h1{font-size:clamp(40px,5.6vw,70px);line-height:1;letter-spacing:-.035em;margin:14px auto 16px;font-weight:880;max-width:1000px}
 h1 em{font-style:normal;color:var(--cyan)}
@@ -422,6 +423,9 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
   flow.addEventListener('mouseenter',function(){paused=true});flow.addEventListener('mouseleave',function(){paused=false});
   window.addEventListener('resize',layout);
   cur=1;layout();restart();
+
+  // nav: transparent at the top, dark once you scroll
+  var navEl=document.querySelector('nav');function navSc(){navEl.classList.toggle('sc',window.scrollY>40)}window.addEventListener('scroll',navSc,{passive:true});navSc();
 
   // ---------- reveal on scroll ----------
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.12});
