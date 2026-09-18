@@ -39,7 +39,7 @@ nav a:hover{background:rgba(255,255,255,.08);color:#fff}
 nav a.x{color:var(--cyan)}
 
 /* sections */
-.sec{position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.sec{position:relative;overflow:hidden}
 .sec .wrap{position:relative}
 .kick{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
 .kick::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:-6px 0 0 -2px var(--cyan)}
@@ -86,10 +86,10 @@ h1 em{font-style:normal;color:var(--cyan)}
 @media (prefers-reduced-motion:reduce){.wm .w,.wm .w::before,.wm .w::after{animation:none}}
 
 /* hero: continuous card flow behind, header + bar centred over it */
-#top{min-height:520px;display:block}
-.flow{position:absolute;inset:0;z-index:1;min-height:520px;perspective:1200px;perspective-origin:50% 45%;overflow:hidden;
+#top{min-height:680px;display:block}
+.flow{position:absolute;inset:0;z-index:1;min-height:680px;perspective:1200px;perspective-origin:50% 45%;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.card{position:absolute;left:0;top:50%;width:150px;height:300px;margin-top:-150px;border-radius:18px;overflow:hidden;background:#111;transform-style:preserve-3d;
+.card{position:absolute;left:0;top:58%;width:150px;height:300px;margin-top:-150px;border-radius:18px;overflow:hidden;background:#111;transform-style:preserve-3d;
   cursor:pointer;box-shadow:0 30px 60px -28px rgba(0,0,0,.9);will-change:transform;transition:filter .3s}
 .card:hover{filter:brightness(1.15)}
 .card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -215,7 +215,7 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
 }
 @media (max-width:560px){
   #top .wrap{padding-top:40px}
-  .form{flex-direction:column} .btn{height:52px} #top{min-height:440px} .flow{min-height:440px} .card{width:120px;height:240px;margin-top:-120px}
+  .form{flex-direction:column} .btn{height:52px} #top{min-height:520px} .flow{min-height:520px} .card{width:120px;height:240px;margin-top:-120px}
   .steps{grid-template-columns:1fr}
   .row{grid-template-columns:1fr} .out{grid-template-columns:1fr} .stats{grid-template-columns:1fr 1fr}
   nav ul{justify-content:flex-start}
