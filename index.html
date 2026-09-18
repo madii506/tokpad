@@ -52,7 +52,7 @@ h2 em{font-style:normal;background:linear-gradient(90deg,var(--cyan),#fff 45%,va
 
 /* hero */
 #top{border-top:0}
-#top .wrap{padding:64px 24px 24px;text-align:center}
+#top .wrap{padding:52px 24px 24px;text-align:center}
 h1{font-size:clamp(40px,5.6vw,70px);line-height:1;letter-spacing:-.035em;margin:14px auto 16px;font-weight:880;max-width:1000px}
 h1 em{font-style:normal;color:var(--cyan)}
 .hero-p{font-size:18px;line-height:1.55;color:var(--mute2);max-width:620px;margin:0 auto 26px}
@@ -69,6 +69,20 @@ h1 em{font-style:normal;color:var(--cyan)}
 .try{margin-top:14px;font-size:13px;color:var(--mute)}
 .try code{font-family:var(--mono);background:var(--panel);border:1px solid var(--line);padding:2px 8px;border-radius:7px;color:var(--mute2);cursor:pointer;transition:border-color .2s}
 .try code:hover{border-color:var(--cyan)}
+
+
+/* flickering wordmark */
+.wm{display:flex;justify-content:center;margin:6px 0 30px;user-select:none}
+.wm .w{position:relative;display:inline-block;font-size:clamp(64px,11vw,148px);font-weight:900;letter-spacing:-.045em;line-height:1;color:#fff;
+  text-shadow:-4px -3px 0 var(--cyan),4px 3px 0 var(--red);animation:flick 4.2s infinite steps(1,end),jitter 6s infinite}
+.wm .w::before,.wm .w::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden;color:#fff;text-shadow:none;pointer-events:none;opacity:0}
+.wm .w::before{color:var(--cyan);animation:sliceA 3.1s infinite steps(1,end)}
+.wm .w::after{color:var(--red);animation:sliceB 2.7s infinite steps(1,end)}
+@keyframes flick{0%,86%,100%{opacity:1}87%{opacity:.55}88%{opacity:1}91%{opacity:.35}92%{opacity:1}95%{opacity:.7}96%{opacity:1}}
+@keyframes jitter{0%,88%,100%{transform:none}89%{transform:translate(-3px,1px) skewX(-6deg)}90%{transform:translate(3px,-1px)}91%{transform:none}94%{transform:translate(2px,0) skewX(4deg)}95%{transform:none}}
+@keyframes sliceA{0%,89%,100%{opacity:0;clip-path:inset(0 0 100% 0)}90%{opacity:1;clip-path:inset(12% 0 64% 0);transform:translateX(-10px)}92%{opacity:1;clip-path:inset(48% 0 30% 0);transform:translateX(8px)}94%{opacity:0}}
+@keyframes sliceB{0%,80%,100%{opacity:0;clip-path:inset(0 0 100% 0)}81%{opacity:1;clip-path:inset(60% 0 12% 0);transform:translateX(9px)}83%{opacity:1;clip-path:inset(22% 0 60% 0);transform:translateX(-7px)}85%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.wm .w,.wm .w::before,.wm .w::after{animation:none}}
 
 /* coverflow */
 .flow{position:relative;height:420px;margin-top:38px;perspective:1100px;perspective-origin:50% 40%;overflow:hidden;
@@ -230,9 +244,7 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
   <div class="glow c" style="width:520px;height:520px;left:-160px;top:-200px"></div>
   <div class="glow r" style="width:560px;height:560px;right:-200px;top:120px"></div>
   <div class="wrap">
-    <div class="kick">The first launchpad for TikTok</div>
-    <h1>Launch a coin on any TikTok.<br>Fees put them on <em>For You</em>.</h1>
-    <p class="hero-p">Type a handle. One transaction launches their coin. The creator fee buys promotion on whatever they post next — no sign-up, no wallet, nothing to claim.</p>
+    <div class="wm" aria-label="TokPad"><span class="w" data-t="TokPad">TokPad</span></div>
     <form class="form" id="heroForm" autocomplete="off">
       <label class="inp"><span class="pre">@</span><input id="heroU" placeholder="handle" spellcheck="false" aria-label="TikTok handle"></label>
       <button class="btn" type="submit">Read them ↗</button>
