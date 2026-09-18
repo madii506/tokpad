@@ -87,7 +87,6 @@ h1 em{font-style:normal;color:var(--cyan)}
 
 /* hero: continuous card flow behind, header + bar centred over it */
 #top{min-height:520px;display:block}
-#read .wrap{padding:44px 24px 40px;text-align:center}
 .flow{position:absolute;inset:0;z-index:1;min-height:520px;perspective:1200px;perspective-origin:50% 45%;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 .card{position:absolute;left:0;top:50%;width:150px;height:300px;margin-top:-150px;border-radius:18px;overflow:hidden;background:#111;transform-style:preserve-3d;
@@ -243,15 +242,6 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
   <div class="flow" id="flow" aria-hidden="true"></div>
 </div>
 
-<!-- ============ READ ============ -->
-<div class="sec" id="read"><div class="wrap">
-  <form class="form" id="heroForm" autocomplete="off">
-    <label class="inp"><span class="pre">@</span><input id="heroU" placeholder="handle" spellcheck="false" aria-label="TikTok handle"></label>
-    <button class="btn" type="submit">Read them ↗</button>
-  </form>
-  <div class="try">Try <code data-u="mrbeast">@mrbeast</code> <code data-u="charlidamelio">@charlidamelio</code> <code data-u="zachking">@zachking</code> — read live from TikTok.</div>
-</div></div>
-
 <!-- ============ LAUNCH ============ -->
 <div class="sec" id="launch">
   <div class="glow c" style="width:600px;height:600px;left:40%;top:-300px;opacity:.25"></div>
@@ -265,8 +255,9 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
           <div class="lbl">Who is it for</div>
           <form class="form" id="lForm" autocomplete="off" style="max-width:none">
             <label class="inp"><span class="pre">@</span><input id="lU" placeholder="handle" spellcheck="false" aria-label="TikTok handle"></label>
-            <button class="btn cy" type="submit" id="lBtn">Check</button>
+            <button class="btn" type="submit" id="lBtn">Read them ↗</button>
           </form>
+          <div class="try" style="text-align:left">Try <code data-u="mrbeast">@mrbeast</code> <code data-u="charlidamelio">@charlidamelio</code> <code data-u="zachking">@zachking</code> — read live from TikTok.</div>
           <div class="who" id="who"><div class="empty">Nothing checked yet. The cards above are cycling through real accounts while you read this.</div></div>
           <div class="stats" id="stats"><div><small>Followers</small><b id="sF">—</b></div><div><small>Likes</small><b id="sL">—</b></div><div><small>Videos</small><b id="sV">—</b></div></div>
           <div class="err" id="err"></div>
@@ -434,7 +425,7 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
   document.querySelectorAll('.rv').forEach(function(el,i){el.style.transitionDelay=(i%4)*60+'ms';io.observe(el)});
 
   // ---------- reader ----------
-  var who=document.getElementById('who'),stats=document.getElementById('stats'),err=document.getElementById('err'),sPair=document.getElementById('sPair'),lineTxt=document.getElementById('lineTxt'),lBtn=document.getElementById('lBtn'),lU=document.getElementById('lU'),heroU=document.getElementById('heroU');
+  var who=document.getElementById('who'),stats=document.getElementById('stats'),err=document.getElementById('err'),sPair=document.getElementById('sPair'),lineTxt=document.getElementById('lineTxt'),lBtn=document.getElementById('lBtn'),lU=document.getElementById('lU');
   var SHOWAV={};SHOW.forEach(function(s){SHOWAV[s.u.toLowerCase()]=s});
   function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},1800)}
   function clean(u){return String(u||'').trim().replace(/^@/,'').replace(/^https?:\/\/(www\.)?tiktok\.com\/@/i,'').split(/[\/?#]/)[0]}
@@ -458,11 +449,10 @@ details p{margin:0 0 20px;color:var(--mute2);line-height:1.6;font-size:15px;max-
     }).catch(function(e){
       who.className='who';who.innerHTML='<div class="empty">Nothing checked yet.</div>';stats.className='stats';
       err.textContent=e.message;err.style.display='block';
-    }).then(function(){busy=false;lBtn.disabled=false;lBtn.textContent='Check'});
+    }).then(function(){busy=false;lBtn.disabled=false;lBtn.textContent='Read them ↗'});
   }
-  function pick(u){heroU.value=u;document.getElementById('launch').scrollIntoView({behavior:'smooth'});read(u)}
+  function pick(u){document.getElementById('launch').scrollIntoView({behavior:'smooth'});read(u)}
   document.getElementById('lForm').addEventListener('submit',function(e){e.preventDefault();read(lU.value)});
-  document.getElementById('heroForm').addEventListener('submit',function(e){e.preventDefault();var u=clean(heroU.value);if(!u)return;pick(u)});
   [].forEach.call(document.querySelectorAll('.try code'),function(c){c.addEventListener('click',function(){pick(c.getAttribute('data-u'))})});
   document.getElementById('cp').addEventListener('click',function(){
     var t=lineTxt.textContent;
